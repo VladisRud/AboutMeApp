@@ -10,14 +10,13 @@ import UIKit
 final class WelcomeViewController: UIViewController {
     
     //MARK: - Data Transfer Properties
-    var textForLabel = ""
     var forCloseScreen: ((String) -> Void)?
+    var userName = "test"
     
     //MARK: - viewDidLoad
     override func viewDidLoad() {
         super.viewDidLoad()
-        // Do any additional setup after loading the view.
-        userNameLabel.text = "Hello, \(textForLabel)"
+        view.backgroundColor = .systemBackground
         addElementsOnScreen()
         doConstrainsLabel()
         doContrainsButton()
@@ -27,7 +26,6 @@ final class WelcomeViewController: UIViewController {
     //MARK: - UI Elements
     let userNameLabel: UILabel = {
         let label = UILabel()
-        label.translatesAutoresizingMaskIntoConstraints = false
         label.adjustsFontSizeToFitWidth = true
         label.textAlignment = .center
         label.font = .boldSystemFont(ofSize: 25)
@@ -37,7 +35,6 @@ final class WelcomeViewController: UIViewController {
     
     let greetingLabel: UILabel = {
         let label = UILabel()
-        label.translatesAutoresizingMaskIntoConstraints = false
         label.adjustsFontSizeToFitWidth = true
         label.font = .systemFont(ofSize: 60)
         label.textAlignment = .center
@@ -47,7 +44,6 @@ final class WelcomeViewController: UIViewController {
     
     let logoutButton: UIButton = {
         let button = UIButton(type: .system)
-        button.translatesAutoresizingMaskIntoConstraints = false
         button.titleLabel?.adjustsFontSizeToFitWidth = true
         button.setTitle("Log Out", for: .normal)
         button.titleLabel?.font = .systemFont(ofSize: 20)
@@ -55,12 +51,25 @@ final class WelcomeViewController: UIViewController {
         return button
     }()
     
+    func entryLabelText(userName: String) {
+        userNameLabel.text = "Hello, \(userName)"
+    }
+    
+}
+
+private extension WelcomeViewController {
     //MARK: - UI Functions
     func addElementsOnScreen() {
-        view.backgroundColor = .systemBackground
-        view.addSubview(userNameLabel)
-        view.addSubview(greetingLabel)
-        view.addSubview(logoutButton)
+        [
+            userNameLabel,
+            greetingLabel,
+            logoutButton
+        ].forEach { 
+            view.addSubview($0)
+            $0.translatesAutoresizingMaskIntoConstraints = false
+        }
+        
+        
     }
     
     func doConstrainsLabel() {
@@ -88,5 +97,4 @@ final class WelcomeViewController: UIViewController {
         forCloseScreen?("")
         self.dismiss(animated: true)
     }
-
 }
